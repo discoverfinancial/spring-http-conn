@@ -1,0 +1,23 @@
+server:
+  port: 8082
+  tomcat:
+    keep-alive-timeout: 30000
+    max-connections: 200
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - health
+        - info
+        - metrics
+        - prometheus
+
+logging:
+  level:
+    '[com.discover]': DEBUG
+    '[org.apache.tomcat.util.net.NioEndpoint]': DEBUG
+
+location: local
+

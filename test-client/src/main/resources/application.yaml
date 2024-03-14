@@ -1,0 +1,38 @@
+server:
+  port: 8081
+
+http-client:
+  connection-pool:
+    base-url: http://localhost:8082
+    name: test-api-pool
+    max-connections: 50
+    use-fifo: true
+    ttl: 1200
+    connect-timeout: 11
+    socket-timeout: 13
+    lease-request-timeout: 15
+    max-idle-time: 600
+    evict-idle-connections: false
+    evict-expired-connections: false
+    retry-limit: 2
+    retry-wait-time-millis: 750
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - health
+        - info
+        - metrics
+        - prometheus
+
+logging:
+  level:
+    '[com.discover.httpconn]': DEBUG
+    '[org.apache.hc.client5.http.impl.io.DefaultHttpClientConnectionOperator]': DEBUG   # Enables Debug logging to see new Connections
+    #'[org.apache.hc.client5.http.ssl]': DEBUG
+    #'[org.apache.hc.client5.http.impl.classic.InternalHttpClient]': DEBUG
+    #'[org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager]': DEBUG
+    '[reactor.netty.resources.PooledConnectionProvider]': DEBUG
+    '[reactor.netty.transport.TransportConnector]': DEBUG   # Enables DEBUG logging to see new Connections
