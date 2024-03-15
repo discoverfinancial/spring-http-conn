@@ -41,3 +41,4 @@ The below diagram depicts the setup (Running Prometheus is optional)
     ```
 3. Start prometheus
 4. Load Console: http://localhost:9090/targets - make sure you see 'spring boot scrape'
+5. Check out the [Prometheus page](Prometheus.md) for some queries
