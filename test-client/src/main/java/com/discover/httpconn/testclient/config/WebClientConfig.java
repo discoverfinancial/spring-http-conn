@@ -46,7 +46,12 @@ public class WebClientConfig {
 
         HttpClient httpClient =
                 HttpClient.create(connProviderBuilder.build())
-                        .metrics(true, uri -> uri)
+                        .metrics(
+                                true,
+                                uri ->
+                                        uri.startsWith("/downstream/test/")
+                                                ? "/downstream/test/{n}"
+                                                : uri)
                         .option(
                                 ChannelOption.CONNECT_TIMEOUT_MILLIS,
                                 connPoolProps.connectTimeout() * 1000)
