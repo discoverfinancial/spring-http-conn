@@ -28,6 +28,11 @@ public class RestClientConfig {
     static final Logger LOG = LoggerFactory.getLogger(RestClientConfig.class);
 
     @Bean
+    RestClient defaultRestClient(HttpConnPoolProperties connPoolProperties) {
+        return RestClient.builder().baseUrl(connPoolProperties.baseUrl()).build();
+    }
+
+    @Bean
     PoolingHttpClientConnectionManager connectionManager(
             HttpConnPoolProperties connPoolProperties) {
         LOG.info(
@@ -59,13 +64,10 @@ public class RestClientConfig {
                 .build();
     }
 
-    @Bean
-    RestClient defaultRestClient(HttpConnPoolProperties connPoolProperties) {
-        return RestClient.builder().baseUrl(connPoolProperties.baseUrl()).build();
-    }
-
+    // https://docs.spring.io/spring-boot/docs/3.2.0/reference/html/io.html#io.rest-client.restclient.customization
     @Bean
     RestClient restClient(
+            RestClient.Builder builder,
             HttpConnPoolProperties connPoolProperties,
             PoolingHttpClientConnectionManager connectionManager) {
         LOG.info("Creating RestClient with properties: {}", connPoolProperties);
@@ -115,7 +117,7 @@ public class RestClientConfig {
                 new HttpComponentsClientHttpRequestFactory();
         factory.setHttpClient(httpClientBuilder.build());
 
-        return RestClient.builder()
+        return builder.clone()
                 .baseUrl(connPoolProperties.baseUrl())
                 .requestFactory(factory)
                 .build();
